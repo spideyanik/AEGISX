@@ -57,6 +57,12 @@ source .venv/bin/activate
 
 ## Quick start
 
+Running AEGISX without a command displays the logo and available commands:
+
+```bash
+aegisx
+```
+
 Initialize `.aegisx` under the current directory:
 
 ```bash

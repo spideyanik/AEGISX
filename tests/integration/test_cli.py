@@ -9,11 +9,22 @@ runner = CliRunner()
 
 
 @pytest.mark.integration
+def test_root_command_displays_logo_and_help() -> None:
+    result = runner.invoke(app, [])
+    assert result.exit_code == 0, result.output
+    assert "AEGISX" in result.output
+    assert "Unified Cybersecurity Intelligence" in result.output
+    assert "project" in result.output
+    assert "scope" in result.output
+
+
+@pytest.mark.integration
 def test_initialize_create_project_and_add_scope(tmp_path: Path) -> None:
     home = tmp_path / "workspace"
 
     initialized = runner.invoke(app, ["--home", str(home), "init"])
     assert initialized.exit_code == 0, initialized.output
+    assert "AEGISX" in initialized.output
     assert (home / "config.toml").is_file()
     assert (home / "aegisx.db").is_file()
 

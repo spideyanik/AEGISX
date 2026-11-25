@@ -10,13 +10,15 @@ import typer
 from aegisx import __version__
 from aegisx.commands import doctor, project, scope
 from aegisx.commands.common import console, explicit_home, fail
+from aegisx.core.branding import show_logo
 from aegisx.core.config import WORKSPACE_DIRECTORY
 from aegisx.core.workspace import initialize_workspace
 
 app = typer.Typer(
     name="aegisx",
     help="Evidence-driven, authorized cybersecurity assessment framework.",
-    no_args_is_help=True,
+    no_args_is_help=False,
+    invoke_without_command=True,
     pretty_exceptions_enable=False,
 )
 app.add_typer(project.app, name="project")
@@ -56,6 +58,9 @@ def root(
 ) -> None:
     """Configure global CLI options."""
     context.obj = {"home": home}
+    if context.invoked_subcommand is None:
+        show_logo(console)
+        console.print(context.get_help())
 
 
 @app.command("init")
@@ -73,6 +78,7 @@ def initialize(
 ) -> None:
     """Initialize configuration, protected directories, and the database schema."""
     target = path or explicit_home(context) or (Path.cwd() / WORKSPACE_DIRECTORY)
+    show_logo(console)
     try:
         result = initialize_workspace(target)
     except Exception as exc:
