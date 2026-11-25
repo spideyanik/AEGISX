@@ -1,0 +1,10 @@
+# Copy only when constructing a workspace manually. `aegisx init` creates this automatically.
+[aegisx]
+database_url = ""
+log_level = "INFO"
+
+[safety]
+max_concurrency = 4
+requests_per_second = 2.0
+redact_secrets = true
+require_intrusive_approval = true
